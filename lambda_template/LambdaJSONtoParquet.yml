@@ -10,14 +10,12 @@ Parameters:
   TopicNamePlaceholder:
     Description: Name for the SNS topic
     Type: String
-    Default: viv_topic
   FunctionNamePlaceholder:
     Description: Name for the Lambda function
     Type: String
   BucketNamePlaceholder:
     Description: Name for the S3 bucket
     Type: String
-    Default: sandbox-learning-01
   PrefixPlaceholder:
     Description: Prefix for the S3 key filter
     Type: String
@@ -28,7 +26,6 @@ Parameters:
   EmailPlaceholder:
     Description: Email for the SNS topic
     Type: String
-    Default: vivek.excellence9@gmail.com
 
 Resources:
   # AWS SNS Topic Resource
