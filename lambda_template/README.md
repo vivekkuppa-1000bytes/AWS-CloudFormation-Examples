@@ -2,8 +2,6 @@
 
 <u>This AWS CloudFormation template creates a serverless solution for converting JSON files stored in an S3 bucket to</u> 
 <u>Parquet format using AWS Lambda and AWS SNS</u>
----
-___
 ### Parameters
 - **BucketName**: Name for the S3 bucket where JSON files are stored.
 - **PrefixPlaceholder**: Prefix for the S3 key filter.
