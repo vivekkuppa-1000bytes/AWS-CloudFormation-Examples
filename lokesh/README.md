@@ -1,4 +1,4 @@
-### JSON to Parquet Converter
+### JSON to Parquet Converter(s3lambdatrigger.yaml)
 
 This AWS CloudFormation template creates a serverless solution for converting JSON files stored in an S3 bucket to Parquet format using AWS Lambda and AWS SNS.
 
