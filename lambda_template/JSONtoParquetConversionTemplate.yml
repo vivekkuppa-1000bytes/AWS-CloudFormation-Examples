@@ -113,7 +113,7 @@ Resources:
 
       # Adding layers to the function's execution environment
       Layers:
-      - "arn:aws:lambda:us-east-1:336392948345:layer:AWSSDKPandas-Python312:4"
+      - !Sub "arn:aws:lambda:${AWS::Region}:336392948345:layer:AWSSDKPandas-Python312:4"
       Description: A Lambda function that converts a JSON file to a Parquet file.
       MemorySize: 512
       Timeout: 15
