@@ -1,6 +1,9 @@
 ### s3lambdatrigger.yaml
 
-<u>This AWS CloudFormation template creates a serverless solution for converting JSON files stored in an S3 bucket to Parquet format using AWS Lambda and AWS SNS</u>
+This AWS CloudFormation template creates a serverless solution for converting JSON files stored in an S3 bucket to Parquet
+---
+format using AWS Lambda and AWS SNS
+---
 ___
 ### Parameters
 - **BucketName**: Name for the S3 bucket where JSON files are stored.
