@@ -1,4 +1,4 @@
-# api_cloud_formation
+# Lambda_vpc_access
 
 This CloudFormation template allows you to deploy a Virtual Private Cloud (VPC) with public and private subnets, an internet gateway, NAT gateway, and a Lambda function. The Lambda function is designed to fetch and process data from a CSV file stored on the internet.
 
