@@ -25,5 +25,12 @@ jobs:
         tags: dbt:latest
         load: true  # Important: this makes the built image available to subsequent steps
 
-    - name: Run dbt compile
-      run: docker run dbt:latest dbt compile
+    - name: dbt-action
+      uses: mwhitaker/dbt-action@master
+      with:
+        dbt_command: "dbt deps --profiles-dir ."
+
+    - name: dbt-action
+      uses: mwhitaker/dbt-action@master
+      with:
+        dbt_command: "dbt run --profiles-dir ."
