@@ -6,27 +6,24 @@ on:
       - main
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build and push Docker image
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      id: docker_build
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: true
-        tags: your-dockerhub-username/dbt:latest
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+        push: false
+        tags: dbt:latest
+        load: true  # Important: this makes the built image available to subsequent steps
 
     - name: Run dbt compile
-      run: docker run your-dockerhub-username/dbt:latest dbt compile
+      run: docker run dbt:latest dbt compile

@@ -3,7 +3,7 @@ json_datapipeline:
     dev:
       account: wt08219.ap-south-1
       database: dbt_db
-      password: Icui4cu@
+      password: Password1
       role: dbt_role
       schema: gold
       threads: 1
