@@ -42,5 +42,5 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_
 # Set docker basics
 COPY . /usr/app/dbt
 ENTRYPOINT ["/bin/sh","-c"]
-CMD [ "dbt test && dbt run" ]
+CMD [ "dbt deps && dbt test && dbt run" ]
 
