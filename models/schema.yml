@@ -8,7 +8,7 @@ models:
   - name: aircraft_dim
     tests:
       - unique:
-          column_name: AIRCRAFT_MODEL
+          column_name: AIRCRAFT_MANUFACTURER
   - name: date_dim
     tests:
       - unique:
