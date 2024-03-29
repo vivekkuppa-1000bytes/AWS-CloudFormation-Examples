@@ -9,7 +9,7 @@
 
 
 WITH aircraft_dim_data AS (
-    SELECT
+    
         AIRCRAFT_MANUFACTURER,
         AIRCRAFT_MODEL,
         AIRCRAFT_BODY_TYPE,
