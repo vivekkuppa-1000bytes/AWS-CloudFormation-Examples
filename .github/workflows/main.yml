@@ -53,7 +53,7 @@ jobs:
           dbt_command: "dbt test --profiles-dir ."
 
   build-and-push:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: dbt-test
     runs-on: ubuntu-latest
     steps:
