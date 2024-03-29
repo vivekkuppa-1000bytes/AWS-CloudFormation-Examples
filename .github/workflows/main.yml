@@ -5,7 +5,8 @@ on:
     types: [edited, submitted]
     branches:
       - main
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
@@ -54,6 +55,7 @@ jobs:
 
   build-and-push:
     needs: dbt-test
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -82,3 +84,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/viv:latest
+
+      - name: dbt-action (run)
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt run --profiles-dir ."
