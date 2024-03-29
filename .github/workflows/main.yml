@@ -84,8 +84,3 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/viv:latest
-
-      - name: dbt-action (run)
-        uses: mwhitaker/dbt-action@master
-        with:
-          dbt_command: "dbt run --profiles-dir ."
