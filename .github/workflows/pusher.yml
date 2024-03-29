@@ -27,4 +27,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: dbt:latest
+          tags: viv:latest
