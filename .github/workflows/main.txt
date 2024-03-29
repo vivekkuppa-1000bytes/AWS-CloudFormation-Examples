@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -21,16 +21,22 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: false
+        push: true
         tags: dbt:latest
         load: true  # Important: this makes the built image available to subsequent steps
 
-    - name: dbt-action
+    - name: dbt-action (deps)
       uses: mwhitaker/dbt-action@master
       with:
         dbt_command: "dbt deps --profiles-dir ."
 
-    - name: dbt-action
+    - name: dbt-action (test)
+      uses: mwhitaker/dbt-action@master
+      with:
+        dbt_command: "dbt test --profiles-dir ."
+
+    - name: dbt-action (run)
+      if: ${{ success() }}
       uses: mwhitaker/dbt-action@master
       with:
         dbt_command: "dbt run --profiles-dir ."
