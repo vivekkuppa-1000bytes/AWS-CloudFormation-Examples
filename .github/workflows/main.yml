@@ -5,10 +5,8 @@ on:
     types: [edited, submitted]
     branches:
       - main
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  push:
+    branches: main
 
 jobs:
 
@@ -55,7 +53,7 @@ jobs:
 
   build-and-push:
     needs: dbt-test
-    if: ${{ github.event.pull_request.merged == true }}
+    if: ${{ github.event.review.state == 'merged' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
