@@ -11,6 +11,8 @@ jobs:
     if: ${{ github.event.review.state == 'approved' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: dbt-action (deps)
         uses: mwhitaker/dbt-action@master
         with:
