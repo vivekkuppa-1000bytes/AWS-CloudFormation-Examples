@@ -34,4 +34,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ steps.login-ecr.outputs.registry }}/viv:latest
+        tags: viv:latest
+
