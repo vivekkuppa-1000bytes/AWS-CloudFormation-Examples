@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -13,12 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: dbt-action
+    - name: dbt-action (deps)
       uses: mwhitaker/dbt-action@master
       with:
         dbt_command: "dbt deps --profiles-dir ."
 
-    - name: dbt-action
+    - name: dbt-action (test)
+      uses: mwhitaker/dbt-action@master
+      with:
+        dbt_command: "dbt test --profiles-dir ."
+
+    - name: dbt-action (run)
+      if: ${{ success() }}
       uses: mwhitaker/dbt-action@master
       with:
         dbt_command: "dbt run --profiles-dir ."
