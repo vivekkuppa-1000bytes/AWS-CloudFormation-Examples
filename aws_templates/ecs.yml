@@ -16,7 +16,7 @@ Resources:
   ECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
-      ClusterName: !Ref ClusterName
+      ClusterName: !Ref ${ClusterName}
       CapacityProviders:
         - FARGATE
         - FARGATE_SPOT
@@ -86,7 +86,7 @@ Resources:
         Links: []
         CredentialSpecs: []
         Ulimits: []
-      Family: !Ref TaskDefinitionFamily
+      Family: !Ref ${TaskDefinitionFamily}
       Tags: []
   rolecreation:
     UpdateReplacePolicy: "Retain"
@@ -95,7 +95,7 @@ Resources:
     Properties:
       Path: "/"
       MaxSessionDuration: 3600
-      RoleName: !Ref RoleName
+      RoleName: !Ref ${RoleName}
       Description: "Role for ECS and Fargate"
       Policies:
       - PolicyDocument:
