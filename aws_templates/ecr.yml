@@ -17,15 +17,15 @@ Resources:
       RepositoryPolicyText:
         Version: "2008-10-17"
         Statement:
-          - Condition:
-              StringLike:
-                aws:sourceArn: !sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
-            Action:
+          - Action:
               - "ecr:BatchGetImage"
               - "ecr:GetDownloadUrlForLayer"
               - "ecr:SetRepositoryPolicy"
               - "ecr:DeleteRepositoryPolicy"
               - "ecr:GetRepositoryPolicy"
+            Condition:
+              StringLike:
+                aws:sourceArn: !sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
             Effect: "Allow"
             Principal:
               Service: "lambda.amazonaws.com"
