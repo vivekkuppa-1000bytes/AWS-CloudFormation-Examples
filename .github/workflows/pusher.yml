@@ -88,7 +88,7 @@ jobs:
         run: |
           aws cloudformation create-stack \
             --stack-name stacks \
-            --template-body file://./aws_templates/ecr.yml \
+            --template-body file://./aws_templates/ecs.yml \
             --parameters \
             ParameterKey=ClusterName,ParameterValue=abx \
             ParameterKey=TaskDefinitionFamily,ParameterValue=vk_taskdef \
@@ -97,7 +97,7 @@ jobs:
             --capabilities CAPABILITY_NAMED_IAM \
           || aws cloudformation update-stack \
             --stack-name stacks \
-            --template-body file://./aws_templates/ecr.yml \
+            --template-body file://./aws_templates/ecs.yml \
             --parameters \
             ParameterKey=ClusterName,ParameterValue=abx \
             ParameterKey=TaskDefinitionFamily,ParameterValue=vk_taskdef \
