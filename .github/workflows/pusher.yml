@@ -26,7 +26,7 @@ jobs:
 
       - name: Deploy CloudFormation Stack
         run: |
-          aws cloudformation create-stack --stack-name your-stack-name --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || aws cloudformation update-stack --stack-name your-stack-name --template-body file://./templa/cloudformation-template.yaml --capabilities CAPABILITY_NAMED_IAM
+          aws cloudformation create-stack --stack-name your-stack-name --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || aws cloudformation update-stack --stack-name your-stack-name --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM
 
   build-and-push:
     needs: deploy-infrastructure
