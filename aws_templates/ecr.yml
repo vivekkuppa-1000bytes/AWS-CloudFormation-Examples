@@ -1,15 +1,17 @@
----
-Metadata:
-  TemplateId: "arn:aws:cloudformation:us-east-1:937823852955:generatedTemplate/59843008-afc6-4c77-a724-feef2c0887e6"
+Parameters:
+  RepositoryName:
+    Description: The name of the ECR repository
+    Type: String
+
 Resources:
-  ECRRepository00viv00miC9v:
+  repositorycreation:
     UpdateReplacePolicy: "Retain"
     Type: "AWS::ECR::Repository"
     DeletionPolicy: "Delete"
     Properties:
       ImageScanningConfiguration:
         ScanOnPush: false
-      RepositoryName: "viv"
+      RepositoryName: !Ref RepositoryName
       EncryptionConfiguration:
         EncryptionType: "AES256"
       RepositoryPolicyText:
@@ -17,12 +19,13 @@ Resources:
         Statement:
         - Condition:
             StringLike:
-              aws:sourceArn: "arn:aws:lambda:us-east-1:937823852955:function:*"
+              aws:sourceArn: !sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
           Action:
           - "ecr:BatchGetImage"
           - "ecr:GetDownloadUrlForLayer"
           - "ecr:SetRepositoryPolicy"
           - "ecr:DeleteRepositoryPolicy"
+          - "ecr:GetRepositoryPolicy"
           Effect: "Allow"
           Principal:
             Service: "lambda.amazonaws.com"
