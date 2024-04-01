@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  deploy-infrastructure:
+  deploy-infrastructure-ecr:
     if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
@@ -24,14 +24,14 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Deploy CloudFormation Stack
+      - name: Deploy ecr CloudFormation Stack
         run: |
           aws cloudformation create-stack --stack-name stackz --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || \
           aws cloudformation update-stack --stack-name stackz --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || \
           echo "No updates required for the existing CloudFormation stack."
 
   build-and-push:
-    needs: deploy-infrastructure
+    needs: deploy-infrastructure-ecr
     if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
@@ -57,3 +57,25 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$IMAGE_TAG .
           docker push $ECR_REGISTRY/$IMAGE_TAG
+
+  deploy-infrastructure-ecs:
+    needs: build-and-push
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Deploy ecs CloudFormation Stack
+        run: |
+          aws cloudformation create-stack --stack-name stackx --template-body file://./aws_templates/ecs.yml --capabilities CAPABILITY_NAMED_IAM || \
+          aws cloudformation update-stack --stack-name stackx --template-body file://./aws_templates/ecs.yml --capabilities CAPABILITY_NAMED_IAM || \
+          echo "No updates required for the existing CloudFormation stack."
