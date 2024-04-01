@@ -23,12 +23,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
-
-      - name: Deploy ecr CloudFormation Stack
+   
+      - name: Deploy CloudFormation Stack
         run: |
-          aws cloudformation create-stack --stack-name stackz --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || \
-          aws cloudformation update-stack --stack-name stackz --template-body file://./aws_templates/ecr.yml --capabilities CAPABILITY_NAMED_IAM || \
-          echo "No updates required for the existing CloudFormation stack."
+          aws cloudformation create-stack \
+            --stack-name your-stack-name \
+            --template-body file://./aws_templates/ecr.yml \
+            --parameters \
+              ParameterKey=ClusterName,ParameterValue=your-cluster-name \
+            --capabilities CAPABILITY_NAMED_IAM \
+          || aws cloudformation update-stack \
+            --stack-name your-stack-name \
+            --template-body file://./aws_templates/ecr.yml \
+            --parameters \
+              ParameterKey=RepositoryName,ParameterValue=your-ecr-repository-name \
+            --capabilities CAPABILITY_NAMED_IAM
 
   build-and-push:
     needs: deploy-infrastructure-ecr
