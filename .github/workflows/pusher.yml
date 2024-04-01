@@ -28,7 +28,7 @@ jobs:
         run: |
           aws cloudformation create-or-update-stack \
             --stack-name stackz \
-            --template-body file://./aws_templates/ecr.yaml \
+            --template-body file://./aws_templates/ecr.yml \
             --capabilities CAPABILITY_NAMED_IAM
 
   build-and-push:
