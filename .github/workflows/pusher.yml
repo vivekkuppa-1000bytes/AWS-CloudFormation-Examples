@@ -21,13 +21,14 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation create-or-update-stack \
-            --stack-name your-stack-name \
-            --template-body file://./templa/cloudformation-template.yaml \
+            --stack-name stackz \
+            --template-body file://./aws_templates/ecr.yaml \
             --capabilities CAPABILITY_NAMED_IAM
 
   build-and-push:
