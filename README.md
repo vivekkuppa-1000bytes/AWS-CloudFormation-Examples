@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Welcome to your new dbt project!
 
 ### Using the starter project
@@ -17,3 +18,7 @@ Try running the following commands:
 =======
 # GITHUB_ACTIONS_AWS_ECR-DOCKER
 >>>>>>> bf2ccd337a7cb37965229a5b62287bf02f5da96a
+=======
+# GITHUB_ACTIONS_AWS_ECR-DOCKER
+
+>>>>>>> 86936f9f58552ac935715a721266adfa78235cec
