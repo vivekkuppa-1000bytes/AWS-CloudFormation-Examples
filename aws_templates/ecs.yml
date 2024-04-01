@@ -28,10 +28,7 @@ Resources:
     Type: "AWS::ECS::TaskDefinition"
     DeletionPolicy: "Delete"
     Properties:
-      TaskRoleArn:
-        Fn::GetAtt:
-        - "IAMRole00vkecsrole00QSD1D"
-        - "Arn"
+      TaskRoleArn: arn:aws:iam::937823852955:role/vk_ecs_role
       InferenceAccelerators: []
       Memory: "512"
       PlacementConstraints: []
@@ -39,10 +36,7 @@ Resources:
       RequiresCompatibilities:
       - "FARGATE"
       NetworkMode: "awsvpc"
-      ExecutionRoleArn:
-        Fn::GetAtt:
-        - "IAMRole00vkecsrole00QSD1D"
-        - "Arn"
+      ExecutionRoleArn: arn:aws:iam::937823852955:role/vk_ecs_role
       RuntimePlatform:
         OperatingSystemFamily: "LINUX"
         CpuArchitecture: "X86_64"
@@ -86,40 +80,5 @@ Resources:
         Ulimits: []
       Family: "dbt_pipeline"
       Tags: []
-  IAMRole00vkecsrole00QSD1D:
-    UpdateReplacePolicy: "Retain"
-    Type: "AWS::IAM::Role"
-    DeletionPolicy: "Delete"
-    Properties:
-      Path: "/"
-      MaxSessionDuration: 3600
-      RoleName: "vk_ecs_role"
-      Description: "Role for ECS and Fargate"
-      Policies:
-      - PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-          - Resource: "*"
-            Action: "ecr:GetAuthorizationToken"
-            Effect: "Allow"
-          - Resource: "arn:aws:ecr:us-east-1:937823852955:repository/viv"
-            Action:
-            - "ecr:GetDownloadUrlForLayer"
-            - "ecr:BatchGetImage"
-            - "ecr:BatchCheckLayerAvailability"
-            Effect: "Allow"
-          - Resource:
-            - "arn:aws:logs:us-east-1:937823852955:log-group:*:log-stream:*"
-            Action:
-            - "logs:CreateLogStream"
-            - "logs:CreateLogGroup"
-            - "logs:PutLogEvents"
-            Effect: "Allow"
-        PolicyName: "vk_ecs_role"
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-        - Action: "sts:AssumeRole"
-          Effect: "Allow"
-          Principal:
-            Service: "ecs-tasks.amazonaws.com"
+
+      
