@@ -17,18 +17,18 @@ Resources:
       RepositoryPolicyText:
         Version: "2008-10-17"
         Statement:
-        - Condition:
-            StringLike:
-              aws:sourceArn: !sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
-          Action:
-          - "ecr:BatchGetImage"
-          - "ecr:GetDownloadUrlForLayer"
-          - "ecr:SetRepositoryPolicy"
-          - "ecr:DeleteRepositoryPolicy"
-          - "ecr:GetRepositoryPolicy"
-          Effect: "Allow"
-          Principal:
-            Service: "lambda.amazonaws.com"
-          Sid: "LambdaECRImageRetrievalPolicy"
+          - Condition:
+              StringLike:
+                aws:sourceArn: !sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
+            Action:
+              - "ecr:BatchGetImage"
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:SetRepositoryPolicy"
+              - "ecr:DeleteRepositoryPolicy"
+              - "ecr:GetRepositoryPolicy"
+            Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Sid: "LambdaECRImageRetrievalPolicy"
       Tags: []
       ImageTagMutability: "MUTABLE"
