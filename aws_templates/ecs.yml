@@ -1,0 +1,125 @@
+Metadata:
+  TemplateId: "arn:aws:cloudformation:us-east-1:937823852955:generatedTemplate/1dd9f582-a38f-4bfd-ac3f-e39fd53f93d5"
+Resources:
+  #ECSClusterCapacityProviderAssociations00abx00I2Olu:
+    #UpdateReplacePolicy: "Retain"
+    #Type: "AWS::ECS::ClusterCapacityProviderAssociations"
+    #DeletionPolicy: "Delete"
+    #Properties:
+      #CapacityProviders:
+      #- "FARGATE"
+      #- "FARGATE_SPOT"
+      #Cluster: "abx"
+      #DefaultCapacityProviderStrategy: []
+  ECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: abx
+      CapacityProviders:
+        - FARGATE
+        - FARGATE_SPOT
+      DefaultCapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Weight: 1
+        - CapacityProvider: FARGATE_SPOT
+          Weight: 1
+  ECSTaskDefinition00taskdefinitiondbtpipeline100ugntg:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ECS::TaskDefinition"
+    DeletionPolicy: "Delete"
+    Properties:
+      TaskRoleArn:
+        Fn::GetAtt:
+        - "IAMRole00vkecsrole00QSD1D"
+        - "Arn"
+      InferenceAccelerators: []
+      Memory: "512"
+      PlacementConstraints: []
+      Cpu: "256"
+      RequiresCompatibilities:
+      - "FARGATE"
+      NetworkMode: "awsvpc"
+      ExecutionRoleArn:
+        Fn::GetAtt:
+        - "IAMRole00vkecsrole00QSD1D"
+        - "Arn"
+      RuntimePlatform:
+        OperatingSystemFamily: "LINUX"
+        CpuArchitecture: "X86_64"
+      Volumes: []
+      ContainerDefinitions:
+      - ExtraHosts: []
+        Secrets: []
+        VolumesFrom: []
+        Cpu: 0
+        EntryPoint: []
+        DnsServers: []
+        Image: "937823852955.dkr.ecr.us-east-1.amazonaws.com/viv:latest"
+        Essential: true
+        LogConfiguration:
+          SecretOptions: []
+          Options:
+            awslogs-group: "/ecs/dbt_pipeline"
+            awslogs-create-group: "true"
+            awslogs-region: "us-east-1"
+            awslogs-stream-prefix: "ecs"
+          LogDriver: "awslogs"
+        ResourceRequirements: []
+        EnvironmentFiles: []
+        Name: "dbt"
+        MountPoints: []
+        DependsOn: []
+        DockerLabels: {}
+        PortMappings:
+        - ContainerPort: 80
+          AppProtocol: "http"
+          Protocol: "tcp"
+          HostPort: 80
+          Name: "dbt-80-tcp"
+        DockerSecurityOptions: []
+        SystemControls: []
+        Command: []
+        DnsSearchDomains: []
+        Environment: []
+        Links: []
+        CredentialSpecs: []
+        Ulimits: []
+      Family: "dbt_pipeline"
+      Tags: []
+  IAMRole00vkecsrole00QSD1D:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Delete"
+    Properties:
+      Path: "/"
+      MaxSessionDuration: 3600
+      RoleName: "vk_ecs_role"
+      Description: "Role for ECS and Fargate"
+      Policies:
+      - PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Resource: "*"
+            Action: "ecr:GetAuthorizationToken"
+            Effect: "Allow"
+          - Resource: "arn:aws:ecr:us-east-1:937823852955:repository/viv"
+            Action:
+            - "ecr:GetDownloadUrlForLayer"
+            - "ecr:BatchGetImage"
+            - "ecr:BatchCheckLayerAvailability"
+            Effect: "Allow"
+          - Resource:
+            - "arn:aws:logs:us-east-1:937823852955:log-group:*:log-stream:*"
+            Action:
+            - "logs:CreateLogStream"
+            - "logs:CreateLogGroup"
+            - "logs:PutLogEvents"
+            Effect: "Allow"
+        PolicyName: "vk_ecs_role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "ecs-tasks.amazonaws.com"
