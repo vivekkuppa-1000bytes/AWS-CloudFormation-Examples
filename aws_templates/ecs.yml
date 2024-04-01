@@ -16,7 +16,7 @@ Resources:
   ECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
-      ClusterName: !Ref ${ClusterName}
+      ClusterName: !Ref ClusterName
       CapacityProviders:
         - FARGATE
         - FARGATE_SPOT
@@ -25,6 +25,7 @@ Resources:
           Weight: 1
         - CapacityProvider: FARGATE_SPOT
           Weight: 1
+
   ECSTaskDefinition:
     UpdateReplacePolicy: "Retain"
     Type: "AWS::ECS::TaskDefinition"
@@ -32,62 +33,63 @@ Resources:
     Properties:
       TaskRoleArn:
         Fn::GetAtt:
-        - "rolecreation"
-        - "Arn"
+          - "rolecreation"
+          - "Arn"
       InferenceAccelerators: []
       Memory: "512"
       PlacementConstraints: []
       Cpu: "256"
       RequiresCompatibilities:
-      - "FARGATE"
+        - "FARGATE"
       NetworkMode: "awsvpc"
       ExecutionRoleArn:
         Fn::GetAtt:
-        - "rolecreation"
-        - "Arn"
+          - "rolecreation"
+          - "Arn"
       RuntimePlatform:
         OperatingSystemFamily: "LINUX"
         CpuArchitecture: "X86_64"
       Volumes: []
       ContainerDefinitions:
-      - ExtraHosts: []
-        Secrets: []
-        VolumesFrom: []
-        Cpu: 0
-        EntryPoint: []
-        DnsServers: []
-        Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${RepositoryName}:latest"
-        Essential: true
-        LogConfiguration:
-          SecretOptions: []
-          Options:
-            awslogs-group: "/ecs/dbt_pipeline"
-            awslogs-create-group: "true"
-            awslogs-region: !Sub "${AWS::Region}"
-            awslogs-stream-prefix: "ecs"
-          LogDriver: "awslogs"
-        ResourceRequirements: []
-        EnvironmentFiles: []
-        Name: "dbt"
-        MountPoints: []
-        DependsOn: []
-        DockerLabels: {}
-        PortMappings:
-        - ContainerPort: 80
-          AppProtocol: "http"
-          Protocol: "tcp"
-          HostPort: 80
-          Name: "dbt-80-tcp"
-        DockerSecurityOptions: []
-        SystemControls: []
-        Command: []
-        DnsSearchDomains: []
-        Environment: []
-        Links: []
-        CredentialSpecs: []
-        Ulimits: []
-      Family: !Ref ${TaskDefinitionFamily}
-      Tags: []
+        - ExtraHosts: []
+          Secrets: []
+          VolumesFrom: []
+          Cpu: 0
+          EntryPoint: []
+          DnsServers: []
+          Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${RepositoryName}:latest"
+          Essential: true
+          LogConfiguration:
+            SecretOptions: []
+            Options:
+              awslogs-group: "/ecs/dbt_pipeline"
+              awslogs-create-group: "true"
+              awslogs-region: !Sub "${AWS::Region}"
+              awslogs-stream-prefix: "ecs"
+            LogDriver: "awslogs"
+          ResourceRequirements: []
+          EnvironmentFiles: []
+          Name: "dbt"
+          MountPoints: []
+          DependsOn: []
+          DockerLabels: {}
+          PortMappings:
+            - ContainerPort: 80
+              AppProtocol: "http"
+              Protocol: "tcp"
+              HostPort: 80
+              Name: "dbt-80-tcp"
+          DockerSecurityOptions: []
+          SystemControls: []
+          Command: []
+          DnsSearchDomains: []
+          Environment: []
+          Links: []
+          CredentialSpecs: []
+          Ulimits: []
+          Family: !Ref TaskDefinitionFamily
+          Tags: []
+
   rolecreation:
     UpdateReplacePolicy: "Retain"
     Type: "AWS::IAM::Role"
@@ -95,33 +97,33 @@ Resources:
     Properties:
       Path: "/"
       MaxSessionDuration: 3600
-      RoleName: !Ref ${RoleName}
+      RoleName: !Ref RoleName
       Description: "Role for ECS and Fargate"
       Policies:
-      - PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-          - Resource: "*"
-            Action: "ecr:GetAuthorizationToken"
-            Effect: "Allow"
-          - Resource: !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/viv"
-            Action:
-            - "ecr:GetDownloadUrlForLayer"
-            - "ecr:BatchGetImage"
-            - "ecr:BatchCheckLayerAvailability"
-            Effect: "Allow"
-          - Resource:
-            - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:*"
-            Action:
-            - "logs:CreateLogStream"
-            - "logs:CreateLogGroup"
-            - "logs:PutLogEvents"
-            Effect: "Allow"
-        PolicyName: "vk_ecs_role"
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Resource: "*"
+                Action: "ecr:GetAuthorizationToken"
+                Effect: "Allow"
+              - Resource: !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${RepositoryName}"
+                Action:
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:BatchGetImage"
+                  - "ecr:BatchCheckLayerAvailability"
+                Effect: "Allow"
+              - Resource:
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*:log-stream:*"
+                Action:
+                  - "logs:CreateLogStream"
+                  - "logs:CreateLogGroup"
+                  - "logs:PutLogEvents"
+                Effect: "Allow"
+          PolicyName: "vk_ecs_role"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-        - Action: "sts:AssumeRole"
-          Effect: "Allow"
-          Principal:
-            Service: "ecs-tasks.amazonaws.com"
+          - Action: "sts:AssumeRole"
+            Effect: "Allow"
+            Principal:
+              Service: "ecs-tasks.amazonaws.com"
