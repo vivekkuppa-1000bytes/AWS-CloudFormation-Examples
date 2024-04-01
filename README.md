@@ -1,2 +1,2 @@
 # GITHUB_ACTIONS_AWS_ECR-DOCKER
-,kn,kn
+
