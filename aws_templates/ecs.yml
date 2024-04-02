@@ -2,9 +2,7 @@ Parameters:
   ClusterName:
     Description: The name of the ECS cluster
     Type: String
-  TaskDefinitionFamily:
-    Description: The family name of the task definition
-    Type: String
+    
   RoleName:
     Description: The name of the IAM role
     Type: String
