@@ -119,7 +119,7 @@ Resources:
                   - "logs:CreateLogGroup"
                   - "logs:PutLogEvents"
                 Effect: "Allow"
-          PolicyName: "vk_ecs_role"
+          PolicyName: "ecs_role_policy"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
