@@ -9,7 +9,7 @@ Parameters:
     Description: The name of the IAM role
     Type: String
   RepositoryName:
-    Description: The name of the IAM role
+    Description: The name of the ECR repository
     Type: String
 
 Resources:
@@ -31,6 +31,7 @@ Resources:
     Type: "AWS::ECS::TaskDefinition"
     DeletionPolicy: "Delete"
     Properties:
+      Family: "dbt_pipeline"
       TaskRoleArn:
         Fn::GetAtt:
           - "rolecreation"
@@ -64,7 +65,7 @@ Resources:
             Options:
               awslogs-group: "/ecs/dbt_pipeline"
               awslogs-create-group: "true"
-              awslogs-region: !Sub "${AWS::Region}"
+              awslogs-region: "us-east-1"
               awslogs-stream-prefix: "ecs"
             LogDriver: "awslogs"
           ResourceRequirements: []
@@ -74,11 +75,11 @@ Resources:
           DependsOn: []
           DockerLabels: {}
           PortMappings:
-            - ContainerPort: 80
-              AppProtocol: "http"
-              Protocol: "tcp"
-              HostPort: 80
-              Name: "dbt-80-tcp"
+          - ContainerPort: 80
+            AppProtocol: "http"
+            Protocol: "tcp"
+            HostPort: 80
+            Name: "dbt-80-tcp"
           DockerSecurityOptions: []
           SystemControls: []
           Command: []
@@ -87,8 +88,6 @@ Resources:
           Links: []
           CredentialSpecs: []
           Ulimits: []
-          Family: !Ref TaskDefinitionFamily
-          Tags: []
 
   rolecreation:
     UpdateReplacePolicy: "Retain"
