@@ -65,7 +65,7 @@ Resources:
             Options:
               awslogs-group: "/ecs/dbt_pipeline"
               awslogs-create-group: "true"
-              awslogs-region: "us-east-1"
+              awslogs-region: !Sub "${AWS::Region}"
               awslogs-stream-prefix: "ecs"
             LogDriver: "awslogs"
           ResourceRequirements: []
