@@ -1,9 +1,9 @@
-# AWS CloudFormation Template: DBT Pipeline for Lambda Function
+**AWS CloudFormation Template: DBT Pipeline for Lambda Function**
 
-## Description
+**Description**
 This CloudFormation template sets up a serverless data pipeline using AWS Lambda, AWS EventBridge (formerly known as CloudWatch Events), AWS API Gateway, AWS ECS (Elastic Container Service), and other AWS services. The pipeline fetches data from public APIs, processes it, and stores it in an Amazon S3 bucket.
 
-## Parameters
+**Parameters**
 - `BucketNameapi`: Name for the S3 bucket to store the files.
 - `layerbucketname`: Name of the bucket which has layers.
 - `requestslayername`: Name of the requests layer in the bucket.
@@ -22,7 +22,7 @@ This CloudFormation template sets up a serverless data pipeline using AWS Lambda
 - `snowflakeiamarn`: Snowflake IAM ARN.
 - `snowflakeexternalid`: Snowflake external ID.
 
-## Resources
+**Resources**
 - `lambdaapirole`: IAM role for the Lambda function.
 - `ecsrole`: IAM role for ECS.
 - `ecslambdarole`: IAM role for Lambda function to trigger ECS.
@@ -44,15 +44,29 @@ This CloudFormation template sets up a serverless data pipeline using AWS Lambda
 - `Deployment`: API Gateway deployment.
 - `ProdStage`: API Gateway stage for production.
 
-## Usage
+ **Usage**
 1. Customize the parameters as per your requirements.
 2. Deploy the CloudFormation stack.
 3. Monitor the pipeline through AWS services.
 4. Test the API endpoints.
 
-## Notes
-- Ensure that necessary IAM permissions are granted to the roles and policies.
-- Make sure to set up Snowflake IAM ARN and external ID correctly if applicable.
-- Adjust scheduling parameters as needed for your use case.
-- Review and adjust resource configurations for performance and cost optimization.
 
+**GitHub Actions Workflow**
+This repository includes a GitHub Actions workflow for automating the deployment of the CloudFormation stack defined in cloud_formation_pipeline.yaml. The workflow is triggered on every push event to the repository, specifically when changes are made to the cloud_formation_pipeline.yaml file.
+
+**Workflow Steps**:
+
+`Checkout:`
+This step checks out the repository code to the runner machine, enabling subsequent steps to access the repository content.
+
+`Configure AWS Credentials:`
+Uses the aws-actions/configure-aws-credentials action to configure AWS credentials required for deploying the CloudFormation stack. The credentials are fetched securely from GitHub Secrets.
+
+`Deploy CloudFormation Stack:`
+Utilizes the aws-actions/aws-cloudformation-github-deploy action to deploy the CloudFormation stack named cloud_formation_pipeline using the template cloud_formation_pipeline.yaml. This step automates the deployment process, ensuring that infrastructure changes are applied promptly.
+
+**Usage:**
+Ensure that AWS credentials are properly configured in the GitHub repository secrets to enable access to AWS resources.
+Modify the cloud_formation_pipeline.yaml file as needed to define or update your CloudFormation stack.
+Commit and push changes to trigger the deployment workflow.
+Monitor the workflow execution in the GitHub Actions tab to ensure successful deployment.
