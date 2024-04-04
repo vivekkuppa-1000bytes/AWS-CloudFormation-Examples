@@ -2,8 +2,9 @@ name: CloudFormation Action
 
 on:
   push:
+    branches: [ main ]
     paths:
-      - 'cloud_formation_pipeline.yaml'
+      - 'cloudformation/cloud_formation_pipeline.yaml'
 
 jobs:
   deploy:
@@ -24,5 +25,16 @@ jobs:
     - name: Deploy CloudFormation Stack
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        stack-name: cloud_formation_pipeline
-        template: cloud_formation_pipeline.yaml
+        name: cloud-formation-pipeline
+        template: cloudformation/cloud_formation_pipeline.yaml
+        capabilities: CAPABILITY_NAMED_IAM
+        parameter-overrides: >-
+          snowflakeexternalid='value1',
+          requestslayername='value2',
+          clustername='value3',
+          snowflakeiamarn='value4',
+          pytzlayername='value5',
+          repositoryname='value6',
+          BucketNameapi='value7',
+          restapiname='value8',
+          layerbucketname='value9'
