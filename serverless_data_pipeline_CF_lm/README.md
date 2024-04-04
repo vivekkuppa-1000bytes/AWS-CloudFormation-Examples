@@ -1,4 +1,4 @@
-**AWS CloudFormation Template: DBT Pipeline for Lambda Function**
+**AWS CloudFormation Pipeline: Serverless Data Processing**
 
 **Description**
 This CloudFormation template sets up a serverless data pipeline using AWS Lambda, AWS EventBridge (formerly known as CloudWatch Events), AWS API Gateway, AWS ECS (Elastic Container Service), and other AWS services. The pipeline fetches data from public APIs, processes it, and stores it in an Amazon S3 bucket.
